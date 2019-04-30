@@ -1,0 +1,12 @@
+service: sls-aws-java-spring-cloud-function-demo
+provider:
+  name: aws
+  runtime: java8
+  timeout: 10
+package:
+  artifact: target/ec2-reboot-lambda-0.0.1-SNAPSHOT-aws.jar
+functions:
+  HelloWorldFunction:
+    handler: com.searshc.hs.ec2rebootlambda.handlers.HelloWorldHandler
+    environment:
+      FUNCTION_NAME: HelloWorldFunction
