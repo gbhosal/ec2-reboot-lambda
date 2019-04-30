@@ -12,7 +12,7 @@ import com.searshc.hs.ec2rebootlambda.vo.HelloWorldResponse;
 @Component("HelloWorldFunction")
 public class HelloWorldFunction implements Function<HelloWorldRequest, HelloWorldResponse> {
 	@Value("${default.user.name}")
-	private String defaultName;
+	private String defaultName = "Maitree";
 	
 	@Override
 	public HelloWorldResponse apply(HelloWorldRequest helloWorldRequest) {
