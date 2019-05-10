@@ -44,7 +44,7 @@ functions:
     package:
       artifact: target/ec2-reboot-lambda-0.0.1-SNAPSHOT-aws.jar    
     environment:
-      FUNCTION_NAME: EC2RebootFunction
+      FUNCTION_NAME: NewRelicEventGateway
     vpc: # Optional VPC. But if you use VPC then both sub properties (securityGroupIds and subnetIds) are required
       securityGroupIds:
         - ${opt:securityGroupId1}

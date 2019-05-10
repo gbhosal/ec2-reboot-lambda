@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 
 import com.searshc.hs.ec2rebootlambda.vo.NewRelicAlertRequest;
 
-@Component("EC2RebootFunction")
-public class EC2RebootFunction implements Function<Message<NewRelicAlertRequest>, Message<String>> {
-	private static Logger LOGGER = LoggerFactory.getLogger(EC2RebootFunction.class);
+@Component("NewRelicEventGateway")
+public class NewRelicEventGateway implements Function<Message<NewRelicAlertRequest>, Message<String>> {
+	private static Logger LOGGER = LoggerFactory.getLogger(NewRelicEventGateway.class);
 	
 	@Override
 	public Message<String> apply(Message<NewRelicAlertRequest> request) {
