@@ -1,7 +1,5 @@
 package com.searshc.hs.ec2rebootlambda.function;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 import org.slf4j.Logger;
