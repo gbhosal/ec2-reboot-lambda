@@ -1,23 +1,25 @@
 package com.searshc.hs.ec2rebootlambda.function;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Component;
 
-import com.amazonaws.services.lambda.runtime.events.ScheduledEvent;
+import com.searshc.hs.ec2rebootlambda.vo.NewRelicAlertRequest;
 
 @Component("EC2RebootFunction")
-public class EC2RebootFunction implements Function<ScheduledEvent, String> {
+public class EC2RebootFunction implements Function<Message<NewRelicAlertRequest>, Message<String>> {
 	private static Logger LOGGER = LoggerFactory.getLogger(EC2RebootFunction.class);
-	@Value("${default.user.name}")
-	private String defaultName = "Maitree";
-
+	
 	@Override
-	public String apply(ScheduledEvent scheduledEvent) {
-		LOGGER.info("ScheduledEvent = {}", scheduledEvent);
-		return "Success";
+	public Message<String> apply(Message<NewRelicAlertRequest> request) {
+		LOGGER.info("Request Body = {}", request.getPayload());
+		 request.getHeaders().forEach((key, value) -> LOGGER.info("Headers :: Key = {}, Value = {}", key, value));
+		return new GenericMessage<String>("");
 	}
 }

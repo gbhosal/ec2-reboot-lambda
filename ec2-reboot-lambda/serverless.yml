@@ -7,6 +7,6 @@ package:
   artifact: target/ec2-reboot-lambda-0.0.1-SNAPSHOT-aws.jar
 functions:
   HelloWorldFunction:
-    handler: com.searshc.hs.ec2rebootlambda.handlers.EC2RebootHandler
+    handler: org.springframework.cloud.function.adapter.aws.SpringBootApiGatewayRequestHandler
     environment:
       FUNCTION_NAME: EC2RebootFunction
