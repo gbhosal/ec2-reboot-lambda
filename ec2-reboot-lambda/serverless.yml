@@ -1,12 +1,58 @@
-service: sls-aws-java-spring-cloud-function-demo
+service:
+  name: newrelic-webhook
+frameworkVersion: "=1.40.0"
+
 provider:
   name: aws
   runtime: java8
-  timeout: 10
+  stage: ${opt:stage, 'test'}
+  region: ${opt:region, 'us-east-1'}
+  apiName: newrelic-webhook
+  stackName: newrelic-webhook-stack
+  profile: ${opt:profile, 'default'}
+  memorySize: 256
+  timeout: 10  
+  logRetentionInDays: 30
+  deploymentBucket:
+    name: shs-serverless-deployable-${self:provider.region}-${opt:awsAccountNo}
+    serverSideEncryption: AES256
+  deploymentPrefix: ${opt:deploymentprefix, 'serverless'}
+  endpointType: regional
+  resourcePolicy:
+    - Effect: Allow
+      Principal: "*"
+      Action: execute-api:Invoke
+      Resource:
+        - execute-api:/*/*/*
+  apiGateway:
+    description: New Relic Web Hook API
+  stackTags:
+    BusinessUnit: Platform
+    Environment: stage
+    Name: NEW-RELIC
+    Product: SRD
+    CreatedBy: GBHOSAL
+
 package:
-  artifact: target/ec2-reboot-lambda-0.0.1-SNAPSHOT-aws.jar
+  individually: true
+
 functions:
-  HelloWorldFunction:
+  NewRelicWebhookGatewayLambda:
+    name: newrelic-webhook-lambda
+    description: Handles New Relic Webhook event and performs appropriate action
     handler: org.springframework.cloud.function.adapter.aws.SpringBootApiGatewayRequestHandler
+    package:
+      artifact: target/ec2-reboot-lambda-0.0.1-SNAPSHOT-aws.jar    
     environment:
       FUNCTION_NAME: EC2RebootFunction
+    vpc: # Optional VPC. But if you use VPC then both sub properties (securityGroupIds and subnetIds) are required
+      securityGroupIds:
+        - ${opt:securityGroupId1}
+      subnetIds:
+        - ${opt:subnetId1}
+        - ${opt:subnetId2}
+    events:
+      - http: 
+          path: sears/newrelic/webhook
+          method: post
+          cors: true
