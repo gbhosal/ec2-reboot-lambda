@@ -11,10 +11,10 @@ provider:
   stackName: newrelic-webhook-stack
   profile: ${opt:profile, 'default'}
   memorySize: 256
-  timeout: 10  
-  logRetentionInDays: 30
+  timeout: 30
+  logRetentionInDays: 7
   deploymentBucket:
-    name: shs-serverless-deployable-${self:provider.region}-${opt:awsAccountNo}
+    name: com.serverless.${self:provider.region}-${opt:awsAccountNo}.deployable
     serverSideEncryption: AES256
   deploymentPrefix: ${opt:deploymentprefix, 'serverless'}
   endpointType: regional
@@ -32,6 +32,13 @@ provider:
     Name: NEW-RELIC
     Product: SRD
     CreatedBy: GBHOSAL
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - "ec2:DescribeInstances"
+        - "ec2:RebootInstances"
+      Resource: 
+        - "*"
 
 package:
   individually: true
@@ -41,6 +48,8 @@ functions:
     name: newrelic-webhook-lambda
     description: Handles New Relic Webhook event and performs appropriate action
     handler: org.springframework.cloud.function.adapter.aws.SpringBootApiGatewayRequestHandler
+    memorySize: 512
+    timeout: 60
     package:
       artifact: target/ec2-reboot-lambda-0.0.1-SNAPSHOT-aws.jar    
     environment:
@@ -53,6 +62,6 @@ functions:
         - ${opt:subnetId2}
     events:
       - http: 
-          path: sears/newrelic/webhook
+          path: hs/newrelic/webhook
           method: post
           cors: true

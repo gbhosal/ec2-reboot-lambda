@@ -17,6 +17,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<aws-lambda-events.version>2.0.2</aws-lambda-events.version>
+		<aws-java-sdk.ec2.version>1.11.551</aws-java-sdk.ec2.version>
 		<spring-cloud.version>Greenwich.BUILD-SNAPSHOT</spring-cloud.version>
 	</properties>
 
@@ -35,6 +36,10 @@
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-lambda-java-events</artifactId>
 			<version>${aws-lambda-events.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-java-sdk-ec2</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.amazonaws</groupId>

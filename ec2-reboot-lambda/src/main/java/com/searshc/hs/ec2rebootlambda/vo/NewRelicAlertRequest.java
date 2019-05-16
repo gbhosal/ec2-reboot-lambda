@@ -21,4 +21,10 @@ public class NewRelicAlertRequest {
 	private String incidentAckUrl;
 	@JsonProperty("targets")
 	private List<NewRelicAlertTarget> targets;
+	@JsonProperty("details")
+	private String details;
+	@JsonProperty("condition_name")
+	private String conditionName;
+	@JsonProperty("current_state")
+	private String currentState;
 }
